@@ -38,7 +38,7 @@ cpuinfo_max_freq to file scaling_max_freq for each policy)
 
 case "$1" in
 	""|help|-h|--help)
-		exec echo -e $HELP_MESSAGE
+		exec echo -e "$HELP_MESSAGE"
 		;;
 	list)
 		exec cat $GLOBAL_DIR/policy0/energy_performance_available_preferences
@@ -48,22 +48,22 @@ case "$1" in
 		exec tail -n +0 $GLOBAL_DIR/policy*/energy_performance_preference
 		;;
 	set)
-		echo $2 | tee "$GLOBAL_DIR"/policy*/energy_performance_preference
+		echo "$2" | tee "$GLOBAL_DIR"/policy*/energy_performance_preference
 		exit $?
 		;;
 	extreme)
 		for policy in $GLOBAL_DIR/policy*; do
 			# Forcefully disallow any freequency changes
-			cat $policy/cpuinfo_min_freq > $policy/scaling_max_freq
+			cat "$policy/cpuinfo_min_freq" > "$policy/scaling_max_freq"
 		done
 		;;
 	unextreme)
 		for policy in $GLOBAL_DIR/policy*; do
-			cat $policy/cpuinfo_max_freq > $policy/scaling_max_freq
+			cat "$policy/cpuinfo_max_freq" > "$policy/scaling_max_freq"
 		done
 		;;
 	*)
-		echo 'Error: unknown command. See help (run `$0 help)' 1>&2
+		echo "Error: unknown command. See help (run \`$0 help\`)" 1>&2
 		exit 101
 		;;
 esac

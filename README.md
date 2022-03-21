@@ -1,6 +1,7 @@
 # CPU energy preference switcher (plus)
 
-This tool lets you switch performance preferences for a CPU on Linux via cpufreq driver (`cpufreq-utils` is not needed). Features:
+This tool lets you switch performance preferences for a CPU on Linux with cpufreq driver
+(`cpufreq-utils` is not needed). Features:
 
 -  Get current modes for CPU cores
 -  Set new mode for all cores
@@ -8,13 +9,15 @@ This tool lets you switch performance preferences for a CPU on Linux via cpufreq
 
 ## Preparation
 
-To use the script, you should have write permissions on a couple of files inside /sys. You can either always run the script as root, or create a group and give it appropriate permissions. For the second:
+To use the script, you should have write permissions on a couple of files inside /sys. You can either
+always run the script as root, or create a group and give it appropriate permissions. For the second:
 
 1.  Create a new group: `groupadd cpu_tuners`
 2.  Add user(s) to it: `usermod -aG cpu_tuners $USER`
 3.  Create a systemd service to give permissions:
     -  Put the service file to /etc/systemd/system/
-    -  Run `systemctl enable --now update_sysfs_cpu_permissions.service` (you need that because the permissions of virtual files are reset on every reboot)
+    -  Run `systemctl enable --now update_sysfs_cpu_permissions.service` (you need that because the
+       permissions of virtual files are reset on every reboot)
 
 ## Usage
 
