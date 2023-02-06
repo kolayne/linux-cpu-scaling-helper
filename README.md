@@ -1,35 +1,50 @@
-# CPU energy preference switcher (plus)
+# Linux CPU scaling helper
 
 This tool lets you switch performance preferences for a CPU on Linux with cpufreq driver
-(`cpufreq-utils` is not needed). Features:
+(no `cpufreq-utils` needed). Features:
 
 -  Get current modes for CPU cores
 -  Set new mode for all cores
--  Switch to "extreme powersave mode": force the lowest possible frequency for all cores
+-  Enable/disable "extreme powersave mode" (that is, force the lowest possible frequency for all cores)
 
-## Preparation (running manually)
+## Usage, simplest case
 
-To use the script, you should have write permissions on a couple of files inside /sys. You can either
-always run the script as root, or create a group and give it appropriate permissions. For the latter:
+The simplest way to use this script is just download it and run as root (see [#Examples](examples)).
+That's it!
+:TODO: HOORAY:
 
-1.  Create a new group: `groupadd cpu_tuners`
-2.  Add user(s) to it: `usermod -aG cpu_tuners $USER`
+## Usage as non-root
+
+To make the usage more convenient, one may want to give some non-root users permissions to run this script.
+For that, they should set the appropriate permissions on the virtual system files, which control the CPU scaling.
+
+The `update_sysfs_cpu_permissions.service` systemd service file will take care of the permissions for you.
+To set it up, run (as root):
+
+1.  Create a group for users allowed to run the script: `groupadd cpu_tuners`
+2.  Add user(s) to the group: `usermod -aG cpu_tuners $USER`
 3.  Create a systemd service to give permissions:
-    -  Put the service file to /etc/systemd/system/
-    -  Run `systemctl enable --now update_sysfs_cpu_permissions.service` (you need that because the
-       permissions of virtual files are reset on every reboot)
+    -  Put the file `cp update_sysfs_cpu_permissions.service /etc/systemd/system/`
+    -  Run `systemctl enable --now update_sysfs_cpu_permissions.service` to set permissions this time, as well
+       as on every boot.
 
-## Preparation (running automatically when charger state is changed)
+## Usage together with udev
 
-TODO: This section is coming soon (if you need this, just ping me in the issues)
+It is also possible to enable udev to trigger actions when laptop charging is connected/disconnected. For that:
 
-## Usage
+1.  Put the script file on your root partition (otherwise the udev rule may not work on boot, as other partitions
+    may not be mounted yet). For example, put it to `/usr/local/bin/`.
+2.  Put your path to the `99-cpu_energy_preference_on_charger.rules` file (the default script path is
+    `/usr/local/bin/cpu`).
+3.  Put the rules file to the `/etc/udev/rules.d/` directory.
 
-Just run the script! Examples:
+## Examples
+
+Manual running examples:
 ```
-./cpu_energy_preference_switcher.sh get          # View current preferences
-./cpu_energy_preference_switcher.sh list        # List valid options for `set` (for the first core)
-./cpu_energy_preference_switcher.sh set default  # Set a mode for all cores
-./cpu_energy_preference_switcher.sh extreme      # Enter extreme powersave mode (force lowest possible frequency)
-./cpu_energy_preference_switcher.sh unextreme    # Exit extreme powersave mode
+./cpu.sh get          # View current preferences
+./cpu.sh list         # List valid options for `set` (for the first core)
+./cpu.sh set default  # Set a mode for all cores
+./cpu.sh extreme      # Enter extreme powersave mode (force lowest possible frequency)
+./cpu.sh unextreme    # Exit extreme powersave mode
 ```
