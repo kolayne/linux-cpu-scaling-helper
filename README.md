@@ -9,7 +9,7 @@ This tool lets you switch performance preferences for a CPU on Linux with cpufre
 
 ## Usage, simplest case
 
-The simplest way to use this script is just download it and run as root (see [#Examples](examples)).
+The simplest way to use this script is just download it and run as root (see [examples](#Examples)).
 That's it!
 :TODO: HOORAY:
 
