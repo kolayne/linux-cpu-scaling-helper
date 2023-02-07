@@ -1,6 +1,6 @@
 # Linux CPU scaling helper
 
-This tool lets you switch performance preferences for a CPU on Linux with cpufreq driver
+This tool lets you switch performance preferences on Linux for CPUs with cpufreq driver
 (no need for `cpufreq-utils`). Features:
 
 -  Get current modes for CPU cores
