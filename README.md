@@ -10,27 +10,39 @@ This tool lets you switch performance preferences on Linux for CPUs with cpufreq
 ## Usage, simplest case
 
 The simplest way to use this script is just download it and run as root (see [examples](#Examples)).
+
+```
+wget https://raw.githubusercontent.com/kolayne/linux-cpu-scaling-helper/master/cpu.sh
+sudo cpu.sh get
+```
+
 That's it! :tada:
 
-## Usage as non-root
+## Run as non-root
 
-To let (some) users other than root run the script, the following setup (performed by root) is needed:
+To let (some) users other than root run the script, perform the following initial setup (as root):
 
 1.  Create a group for users allowed to run the script: `groupadd cpu_tuners`
+
 2.  Add user(s) to the group: `usermod -aG cpu_tuners $USER`
+
 3.  Create a systemd service to set appropriate permissions on system files:
     -  Copy the service file: `cp update_sysfs_cpu_permissions.service /etc/systemd/system/`
+    
     -  Run `systemctl enable --now update_sysfs_cpu_permissions.service` to set permissions this time, and
-       enable the service to run on every boot.
+       enable the service to run on every boot (needed because permissions of virtual files do not survive
+       shutdown/reboot).
 
-## Usage together with udev
+## Run automatically on charger connect/disconnect events
 
-It is also possible to make laptop charger connection/disconnection to trigger the script run via udev.
+It might also be convenient to run the script on laptop charger connect/disconnect events (via udev).
 For that:
 
-1.  Put the script file on your root partition (otherwise the udev rule may not work on boot, as other partitions
-    may not be mounted yet). For example, `cp ./cpu.sh /usr/local/bin/cpu`.
-2.  If using a different path, update the `99-cpu_energy_preference_on_charger.rules` file accordingly.
+1.  If you have several partitions, put the script on the root partition for it to run
+    when udev discovers the charging hardware. For example, `cp ./cpu.sh /usr/local/bin/cpu`.
+
+2.  Put the path to your script to the `99-cpu_energy_preference_on_charger.rules` file.
+
 3.  Put the rules file to the rules directory:
     `cp 99-cpu_energy_preference_on_charger.rules /etc/udev/rules.d/`
 
