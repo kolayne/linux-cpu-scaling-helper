@@ -13,6 +13,7 @@ The simplest way to use this script is just download it and run as root (see [ex
 
 ```
 wget https://raw.githubusercontent.com/kolayne/linux-cpu-scaling-helper/master/cpu.sh
+chmod +x cpu.sh
 sudo cpu.sh get
 ```
 
