@@ -3,9 +3,9 @@
 This tool lets you switch performance preferences on Linux for CPUs with cpufreq driver
 (no need for `cpufreq-utils`). Features:
 
--  Get current modes for CPU cores
--  Set new mode for all cores
--  Enable/disable "extreme powersave mode" (that is, force the lowest possible frequency for all cores)
+-   Get current modes for CPU cores
+-   Set new mode for all cores
+-   Enable/disable "extreme powersave mode" (that is, force the lowest possible frequency for all cores)
 
 ## Usage, simplest case
 
@@ -28,9 +28,9 @@ To let (some) users other than root run the script, perform the following initia
 2.  Add user(s) to the group: `usermod -aG cpu_tuners $USER`
 
 3.  Create a systemd service to set appropriate permissions on system files:
-    -  Copy the service file: `cp update_sysfs_cpu_permissions.service /etc/systemd/system/`
+    -   Copy the service file: `cp update_sysfs_cpu_permissions.service /etc/systemd/system/`
     
-    -  Run `systemctl enable --now update_sysfs_cpu_permissions.service` to set permissions this time, and
+    -   Run `systemctl enable --now update_sysfs_cpu_permissions.service` to set permissions this time, and
        enable the service to run on every boot (needed because permissions of virtual files do not survive
        shutdown/reboot).
 
@@ -50,7 +50,7 @@ For that:
 ## Examples
 
 Manual running examples:
-```
+```bash
 ./cpu.sh get          # View current preferences
 ./cpu.sh list         # List valid options for `set` (for the first core)
 ./cpu.sh set default  # Set a mode for all cores
