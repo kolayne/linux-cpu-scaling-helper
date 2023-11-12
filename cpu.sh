@@ -36,6 +36,8 @@ cpuinfo_max_freq to file scaling_max_freq for each policy)
 # `/sys/devices/system/cpu/cpufreq/policy*/{energy_performance_preference,scaling_max_freq}` files for this script in
 # order to work correctly
 
+EXTREME_MODE_FILE=/tmp/CPU_extreme_mode
+
 case "$1" in
 	""|help|-h|--help)
 		exec echo -e "$HELP_MESSAGE"
@@ -56,8 +58,10 @@ case "$1" in
 			# Forcefully disallow any freequency changes
 			cat "$policy/cpuinfo_min_freq" > "$policy/scaling_max_freq"
 		done
+		echo "Extreme mode is on (enabled with ${BASH_SOURCE[0]})" > "$EXTREME_MODE_FILE"
 		;;
 	unextreme)
+		rm -f "$EXTREME_MODE_FILE"
 		for policy in $GLOBAL_DIR/policy*; do
 			cat "$policy/cpuinfo_max_freq" > "$policy/scaling_max_freq"
 		done
