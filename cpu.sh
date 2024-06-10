@@ -58,10 +58,14 @@ case "$1" in
 			# Forcefully disallow any freequency changes
 			cat "$policy/cpuinfo_min_freq" > "$policy/scaling_max_freq"
 		done
+
 		echo "Extreme mode is on (enabled with ${BASH_SOURCE[0]})" > "$EXTREME_MODE_FILE"
+		polybar-msg action cpu-extreme hook 0 || true  # Notify `polybar` but if failed it's ok
 		;;
 	unextreme)
 		rm -f "$EXTREME_MODE_FILE"
+		polybar-msg action cpu-extreme hook 0 || true  # Notify `polybar` but if failed it's ok
+
 		for policy in $GLOBAL_DIR/policy*; do
 			cat "$policy/cpuinfo_max_freq" > "$policy/scaling_max_freq"
 		done
